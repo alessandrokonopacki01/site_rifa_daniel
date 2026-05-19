@@ -9,6 +9,7 @@
             font-family: sans-serif;
         }
 
+        /* Estilo do botão principal verde */
         button {
             background-color: #08cf23;
             color: white;
@@ -16,8 +17,10 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            margin-bottom: 20px;
         }
 
+        /* Estilo dos quadradinhos dos números da rifa */
         .botao-numero {
             background-color: #202024;
             color: #08cf23;
@@ -28,6 +31,7 @@
             height: 45px;
             font-weight: bold;
             border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -40,11 +44,12 @@
 
     <div id="caixa-numeros"></div>
 
-    <script>
+<script>
     function criarNumeros() { 
         let caixa = document.getElementById("caixa-numeros");
         caixa.innerHTML = "";
 
+        // Cria os botões de 1 a 10 automaticamente
         for (let i = 1; i <= 10; i++) {
             caixa.innerHTML += "<button class='botao-numero'>" + i + "</button>";
         }
