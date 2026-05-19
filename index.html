@@ -28,9 +28,19 @@
 
     <div id="caixa-numeros"></div>
 
-<script>
-    function mandarAviso() {
-        alert("Em breve você poderá escolher os números aqui!");
+    <script>
+    function criarNumeros() {
+        // Encontra a nossa caixinha invisível no site
+        let caixa = document.getElementById("caixa-numeros");
+        
+        // Limpa a caixinha antes de colocar os números
+        caixa.innerHTML = "";
+
+        // Esse é o laço de repetição: ele vai contar de 1 até 10!
+        for (let i = 1; i <= 10; i++) {
+            // Cria um novo botão para o número da rifa
+            caixa.innerHTML += "<button class='botao-numero'>" + i + "</button>";
+        }
     }
 </script>
 
