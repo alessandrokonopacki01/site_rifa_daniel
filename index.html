@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Minha Rifa</title>
+    <title>Minha Rifa Online</title>
     <style>
-    body {
-        background-color: #202024;
-        color: white;
-        font-family: sans-serif;
+        body {
+            background-color: #202024;
+            color: white;
+            font-family: sans-serif;
+        }
+
         button {
-        background-color: #00b37e;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    }
-</style>
+            background-color: #00b37e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
@@ -24,6 +25,8 @@
     <p>Seja bem-vindo! Escolha seu número.</p>
     
     <button onclick="mandarAviso()">Escolher números</button>
+
+    <div id="caixa-numeros"></div>
 
 <script>
     function mandarAviso() {
