@@ -7,9 +7,10 @@
             background-color: #202024;
             color: white;
             font-family: sans-serif;
+            padding: 20px;
         }
 
-    
+        /* Estilo do botão principal verde */
         button {
             background-color: #08cf23;
             color: white;
@@ -18,9 +19,10 @@
             font-size: 16px;
             cursor: pointer;
             margin-bottom: 20px;
+            border-radius: 4px;
         }
 
-        
+        /* Estilo dos quadradinhos dos números da rifa */
         .botao-numero {
             background-color: #202024;
             color: #08cf23;
@@ -33,6 +35,28 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        /* Área de pagamento (começa escondida) */
+        #area-pagamento {
+            display: none; 
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #29292e;
+            border-radius: 8px;
+            border-left: 5px solid #08cf23;
+            max-width: 400px;
+        }
+
+        .chave-pix {
+            background-color: #202024;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #08cf23;
+            font-size: 16px;
+            margin-top: 10px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -44,32 +68,47 @@
 
     <div id="caixa-numeros"></div>
 
+    <div id="area-pagamento">
+        <h3>ℹ️ Como pagar seu número:</h3>
+        <p>Você selecionou o número <strong id="numero-selecionado">X</strong>!</p>
+        <p>Para confirmar sua reserva, faça um Pix para a chave abaixo:</p>
+        <div class="chave-pix">suachavepix@email.com</div>
+        <p style="font-size: 13px; color: #a8a8b3; margin-top: 15px;">
+            *Após o pagamento, envie o comprovante para o organizador.
+        </p>
+    </div>
+
 <script>
     function criarNumeros() { 
         let caixa = document.getElementById("caixa-numeros");
         caixa.innerHTML = "";
 
-    
+        // Cria os 50 botões automaticamente com a função de clique
         for (let i = 1; i <= 50; i++) {
             caixa.innerHTML += "<button class='botao-numero' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
         }
     }
 
-    
+    // Função que roda ao clicar em um número da rifa
     function escolherNumero(numero) {
-
+        // Pega o botão exato que recebeu o clique
         let botaoClicado = event.target;
         
-        
+        // Pinta o botão de verde com texto branco
         botaoClicado.style.backgroundColor = "#08cf23";
         botaoClicado.style.color = "white";
         
-        
+        // Mostra o aviso na tela
         alert("Você reservou o número: " + numero);
+
+        // --- NOVIDADE AQUI ---
+        // 1. Coloca o número que a pessoa clicou dentro do texto de pagamento
+        document.getElementById("numero-selecionado").innerText = numero;
+        
+        // 2. Faz a caixinha de pagamento aparecer na tela mudando o "display" de none para block
+        document.getElementById("area-pagamento").style.display = "block";
     }
 </script>
 
 </body>
 </html>
-  
-    
