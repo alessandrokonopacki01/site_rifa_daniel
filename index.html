@@ -148,7 +148,7 @@
     </div>
 
 <script>
-    let numeroEscolhido Global = 0; // Guarda o número que a pessoa clicou
+    let numeroEscolhidoGlobal = 0; // CORRIGIDO: Sem espaço no nome da variável
 
     function criarNumeros() { 
         let caixa = document.getElementById("caixa-numeros");
@@ -165,15 +165,13 @@
         botaoClicado.style.backgroundColor = "#08cf23";
         botaoClicado.style.color = "white";
         
-        numeroEscolhidoGlobal = numero; // Salva o número clicado
+        numeroEscolhidoGlobal = numero; 
         
-        // Coloca o número no texto, limpa o formulário e esconde a parte do Pix antiga se houver
         document.getElementById("numero-selecionado").innerText = numero;
         document.getElementById("nome-cliente").value = "";
         document.getElementById("pix-cliente").value = "";
         document.getElementById("dados-pagamento").style.display = "none";
         
-        // Mostra o painel de cadastro
         document.getElementById("painel-cadastro").style.display = "block";
     }
 
@@ -181,16 +179,13 @@
         let nome = document.getElementById("nome-cliente").value;
         let pix = document.getElementById("pix-cliente").value;
 
-        // Validação simples: não deixa avançar se os campos estiverem vazios
         if (nome == "" || pix == "") {
             alert("Por favor, preencha o seu Nome e a sua Chave Pix para continuar!");
             return;
         }
 
-        // Mostra mensagem de sucesso com os dados digitados
         alert("Obrigado, " + nome + "! Seu número " + numeroEscolhidoGlobal + " foi pré-reservado. Agora faça o pagamento abaixo.");
 
-        // Libera a caixinha do QR Code e do seu CPF para o cliente pagar
         document.getElementById("dados-pagamento").style.display = "block";
     }
 </script>
