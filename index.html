@@ -45,6 +45,11 @@
             border-radius: 8px;
             border-left: 5px solid #08cf23;
             max-width: 400px;
+            text-align: center; /* Centraliza tudo dentro do bloco */
+        }
+
+        #area-pagamento h3, #area-pagamento p {
+            text-align: left; /* Mantém os textos alinhados à esquerda */
         }
 
         .chave-pix {
@@ -55,7 +60,23 @@
             color: #08cf23;
             font-size: 16px;
             margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Estilo do QR Code */
+        .qrcode-container {
+            margin: 20px 0;
+            background-color: white;
+            padding: 15px;
             display: inline-block;
+            border-radius: 8px;
+        }
+
+        .qrcode-container img {
+            width: 180px;
+            height: 180px;
+            display: block;
         }
     </style>
 </head>
@@ -71,9 +92,15 @@
     <div id="area-pagamento">
         <h3>ℹ️ Como pagar seu número:</h3>
         <p>Você selecionou o número <strong id="numero-selecionado">X</strong>!</p>
-        <p>Para confirmar sua reserva, faça um Pix para o CPF abaixo:</p>
-        <div class="chave-pix">134.689.069-27</div>
-        <p style="font-size: 13px; color: #a8a8b3; margin-top: 15px;">
+        <p>Escaneie o QR Code ou use a chave Pix abaixo para pagar:</p>
+        
+        <div class="qrcode-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=13468906927" alt="QR Code Pix">
+        </div>
+
+        <div class="chave-pix"><strong>CPF:</strong> 134.689.069-27</div>
+        
+        <p style="font-size: 13px; color: #a8a8b3; margin-top: 15px; text-align: left;">
             *Após o pagamento, envie o comprovante para o organizador.
         </p>
     </div>
