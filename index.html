@@ -9,7 +9,7 @@
             font-family: sans-serif;
         }
 
-        /* Estilo do botão principal verde */
+    
         button {
             background-color: #08cf23;
             color: white;
@@ -20,7 +20,7 @@
             margin-bottom: 20px;
         }
 
-        /* Estilo dos quadradinhos dos números da rifa */
+        
         .botao-numero {
             background-color: #202024;
             color: #08cf23;
@@ -49,15 +49,23 @@
         let caixa = document.getElementById("caixa-numeros");
         caixa.innerHTML = "";
 
-        // Cria os botões de 1 a 50 e adiciona a função de clique em cada um
+    
         for (let i = 1; i <= 50; i++) {
             caixa.innerHTML += "<button class='botao-numero' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
         }
     }
 
-    // Nova função que avisa qual número foi clicado
+    
     function escolherNumero(numero) {
-        alert("Você escolheu o número: " + numero);
+
+        let botaoClicado = event.target;
+        
+        
+        botaoClicado.style.backgroundColor = "#08cf23";
+        botaoClicado.style.color = "white";
+        
+        
+        alert("Você reservou o número: " + numero);
     }
 </script>
 
