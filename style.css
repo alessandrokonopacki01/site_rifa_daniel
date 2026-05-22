@@ -1,0 +1,102 @@
+        body {
+            background-color: #202024;
+            color: white;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        /* Botão principal verde */
+        button {
+            background-color: #08cf23;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Quadradinhos dos números da rifa */
+        .botao-numero {
+            background-color: #202024;
+            color: #08cf23;
+            border: 2px solid #08cf23;
+            padding: 10px;
+            margin: 5px;
+            width: 45px;
+            height: 45px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Seção de Cadastro e Pagamento (Escondida no início) */
+        .painel-cadastro {
+            display: none; 
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #29292e;
+            border-radius: 8px;
+            border-left: 5px solid #08cf23;
+            max-width: 400px;
+        }
+
+        /* Estilo dos campos de texto (Inputs) */
+        .campo-formulario {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .campo-formulario label {
+            display: block;
+            margin-bottom: 5px;
+            color: #a8a8b3;
+            font-size: 14px;
+        }
+
+        .campo-formulario input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #202024;
+            background-color: #202024;
+            color: white;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .chave-pix {
+            background-color: #202024;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #08cf23;
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* QR Code */
+        .qrcode-container {
+            margin: 20px 0;
+            background-color: white;
+            padding: 15px;
+            display: inline-block;
+            border-radius: 8px;
+        }
+
+        .qrcode-container img {
+            width: 180px;
+            height: 180px;
+            display: block;
+        }
+
+        .botao-confirmar {
+            width: 100%;
+            background-color: #08cf23;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
