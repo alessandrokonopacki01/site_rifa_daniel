@@ -1,46 +1,72 @@
-// Agora é uma lista (Array) para guardar vários números ao mesmo tempo
 let numerosEscolhidosGlobal = []; 
+let numerosJaReservados = []; // Nova lista para bloquear cliques nos números já comprados
 
-const LINK_DO_GOOGLE = "https://script.google.com/macros/s/AKfycbx1LqTnf5sCTtp9i7CszCOiz-cPRT6JIOLIiD27gwJH6YWbbJY6fzQvahWEtE6bUTEQ/exec"; // Lembre de manter o seu link aqui!
+// COLOQUE AS SUAS CREDENCIAIS DO FIREBASE AQUI TAMBÉM!
+const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_AUTH_DOMAIN",
+    databaseURL: "SUA_DATABASE_URL",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SUA_STORAGE_BUCKET",
+    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+    appId: "SUA_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Roda automaticamente para ler os números travados do banco de dados
+database.ref('reservas').on('value', (snapshot) => {
+    numerosJaReservados = [];
+    const dados = snapshot.val();
+    
+    if (dados) {
+        for (let id em dados) {
+            // Pega os números (ex: "3, 5") e divide de volta em uma lista de números reais
+            let nums = dados[id].numeros.toString().split(", ");
+            nums.forEach(n => numerosJaReservados.push(parseInt(n)));
+        }
+    }
+    // Redesenha os botões na tela aplicando os travamentos atualizados
+    criarNumeros();
+});
 
 function criarNumeros() { 
     let caixa = document.getElementById("caixa-numeros");
     caixa.innerHTML = "";
 
     for (let i = 1; i <= 50; i++) {
-        caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
+        // Verifica se o número já está comprado por alguém
+        if (numerosJaReservados.includes(i)) {
+            // Cria o botão travado (cinza escuro, sem clique e com estilo desativado)
+            caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' style='background-color: #3e3e42; color: #75757a; border-color: #3e3e42; cursor: not-allowed;' disabled>" + i + "</button>";
+        } else {
+            // Cria o botão livre normal
+            caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
+        }
     }
 }
 
 function escolherNumero(numero) {
     let botaoClicado = document.getElementById("btn-" + numero);
-    
-    // Verifica se o número já estava na lista (caso a pessoa queira desmarcar)
     let posicao = numerosEscolhidosGlobal.indexOf(numero);
 
     if (posicao === -1) {
-        // Se NÃO estava na lista: adiciona o número e pinta de verde
         numerosEscolhidosGlobal.push(numero);
         botaoClicado.style.backgroundColor = "#08cf23";
         botaoClicado.style.color = "white";
     } else {
-        // Se JÁ estava na lista: remove o número e volta para a cor original
         numerosEscolhidosGlobal.splice(posicao, 1);
         botaoClicado.style.backgroundColor = "#202024";
         botaoClicado.style.color = "#08cf23";
     }
     
-    // Se a pessoa tiver pelo menos 1 número selecionado, mostra o painel de cadastro
     if (numerosEscolhidosGlobal.length > 0) {
-        // Organiza os números em ordem crescente para mostrar na tela (ex: 2, 5, 12)
         numerosEscolhidosGlobal.sort((a, b) => a - b);
         document.getElementById("numero-selecionado").innerText = numerosEscolhidosGlobal.join(", ");
-        
-        // Esconde a área de pagamento antiga caso ela estivesse aberta
         document.getElementById("dados-pagamento").style.display = "none";
         document.getElementById("painel-cadastro").style.display = "block";
     } else {
-        // Se não tiver nenhum número selecionado, esconde o painel
         document.getElementById("painel-cadastro").style.display = "none";
     }
 }
@@ -54,25 +80,20 @@ function confirmarReserva() {
         return;
     }
 
-    // Transforma a lista de números em um texto bonito separado por vírgulas para a planilha
     let numerosTexto = numerosEscolhidosGlobal.join(", ");
 
-    let dadosParaEnviar = {
-        numero: numerosTexto, // Envia todos os números juntos (Ex: "3, 7, 10")
+    // SALVA DIRETO NO FIREBASE (Substituindo o antigo código do Google Planilhas)
+    database.ref('reservas').push({
+        numeros: numerosTexto,
         nome: nome,
         pix: pix
-    };
-
-    fetch(LINK_DO_GOOGLE, {
-        method: "POST",
-        body: JSON.stringify(dadosParaEnviar)
     })
-    .then(resposta => {
-        alert("Obrigado, " + nome + "! Seus números (" + numerosTexto + ") foram salvos na nossa lista. Agora faça o pagamento abaixo.");
+    .then(() => {
+        alert("Obrigado, " + nome + "! Seus números (" + numerosTexto + ") foram travados e reservados com sucesso!");
         document.getElementById("dados-pagamento").style.display = "block";
+        numerosEscolhidosGlobal = []; // Limpa a seleção atual
     })
-    .catch(erro => {
-        alert("Ops, houve um erro ao salvar. Tente novamente.");
-        console.error(erro);
+    .catch((erro) => {
+        alert("Erro ao salvar dados: " + erro);
     });
 }

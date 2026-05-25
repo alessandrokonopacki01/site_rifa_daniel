@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel do Administrador - Rifa</title>
+    <style>
+        body {
+            background-color: #202024;
+            color: white;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .btn-reset {
+            background-color: #da3737;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        .btn-reset:hover {
+            background-color: #b22a2a;
+        }
+        .item-reserva {
+            background-color: #29292e;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 5px solid #08cf23;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .numero-badge {
+            background-color: #08cf23;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚙️ Painel de Controle da Rifa</h1>
+        <p>Aqui você gerencia as reservas e reseta o sorteio.</p>
+        
+        <button class="btn-reset" onclick="resetarRifa()">🔄 Resetar Toda a Rifa (Zerar)</button>
+
+        <h2>📋 Lista de Números Reservados</h2>
+        <div id="lista-reservas">Carregando reservas...</div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+        // SUBSTITUA ESTAS CREDENCIAIS PELAS SUAS DO FIREBASE!
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_AUTH_DOMAIN",
+            databaseURL: "SUA_DATABASE_URL",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SUA_STORAGE_BUCKET",
+            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+            appId: "SUA_APP_ID"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Escuta o banco de dados em tempo real para listar os compradores
+        database.ref('reservas').on('value', (snapshot) => {
+            const listaDiv = document.getElementById("lista-reservas");
+            listaDiv.innerHTML = "";
+            
+            const dados = snapshot.val();
+            
+            if (!dados) {
+                listaDiv.innerHTML = "<p style='color: #a8a8b3;'>Nenhum número reservado ainda.</p>";
+                return;
+            }
+
+            // Passa por cada reserva e mostra na tela
+            for (let id em dados) {
+                let reserva = dados[id];
+                listaDiv.innerHTML += `
+                    <div class="item-reserva">
+                        <div>
+                            <strong>Nome:</strong> ${reserva.nome} <br>
+                            <small style="color: #a8a8b3;">Pix: ${reserva.pix}</small>
+                        </div>
+                        <span class="numero-badge">Nº ${reserva.numeros}</span>
+                    </div>
+                `;
+            }
+        });
+
+        // Função para apagar todos os dados do banco e liberar a rifa
+        function resetarRifa() {
+            if (confirm("Tem certeza absoluta que deseja ZERAR a rifa? Todos os nomes e números marcados serão apagados permanentemente!")) {
+                database.ref('reservas').remove()
+                .then(() => {
+                    alert("A rifa foi resetada com sucesso! Todos os números estão livres de novo.");
+                })
+                .catch((erro) => {
+                    alert("Erro ao resetar: " + erro);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
