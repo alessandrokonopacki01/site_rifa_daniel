@@ -1,5 +1,7 @@
 let numeroEscolhidoGlobal = 0;
 
+const LINK_DO_GOOGLE = "https://script.google.com/macros/s/AKfycbx1LqTnf5sCTtp9i7CszCOiz-cPRT6JIOLIiD27gwJH6YWbbJY6fzQvahWEtE6bUTEQ/exec";
+
 function criarNumeros() { 
     let caixa = document.getElementById("caixa-numeros");
     caixa.innerHTML = "";
@@ -34,7 +36,25 @@ function confirmarReserva() {
         return;
     }
 
-    alert("Obrigado, " + nome + "! Seu número " + numeroEscolhidoGlobal + " foi pré-reservado. Agora faça o pagamento abaixo.");
+    // --- MÁGICA DA PLANILHA AQUI ---
+    // Prepara os dados para enviar pro Google
+    let dadosParaEnviar = {
+        numero: numeroEscolhidoGlobal,
+        nome: nome,
+        pix: pix
+    };
 
-    document.getElementById("dados-pagamento").style.display = "block";
+    // Envia os dados de forma invisível para a sua planilha
+    fetch(LINK_DO_GOOGLE, {
+        method: "POST",
+        body: JSON.stringify(dadosParaEnviar)
+    })
+    .then(resposta => {
+        alert("Obrigado, " + nome + "! Seu número " + numeroEscolhidoGlobal + " foi salvo na nossa lista. Agora faça o pagamento abaixo.");
+        document.getElementById("dados-pagamento").style.display = "block";
+    })
+    .catch(erro => {
+        alert("Ops, houve um erro ao salvar. Tente novamente.");
+        console.error(erro);
+    });
 }
