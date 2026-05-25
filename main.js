@@ -1,11 +1,10 @@
 let numerosEscolhidosGlobal = []; 
-let numerosJaReservados = []; // Nova lista para bloquear cliques nos números já comprados
+let numerosJaReservados = []; 
 
-// COLOQUE AS SUAS CREDENCIAIS DO FIREBASE AQUI TAMBÉM!
 const firebaseConfig = {
     apiKey: "AIzaSyCyR3RtUtKm-PkUaQpZ-rGNRQg7KWrSqak",
     authDomain: "rifa-do-daniel.firebaseapp.com",
-    databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com", // Link do seu banco de dados
+    databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com", 
     projectId: "rifa-do-daniel",
     storageBucket: "rifa-do-daniel.firebasestorage.app",
     messagingSenderId: "668464647151",
@@ -15,19 +14,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// Roda automaticamente para ler os números travados do banco de dados
 database.ref('reservas').on('value', (snapshot) => {
     numerosJaReservados = [];
     const dados = snapshot.val();
     
     if (dados) {
-        for (let id in dados) { // CORRIGIDO: de 'em' para 'in'
-            // Pega os números (ex: "3, 5") e divide de volta em uma lista de números reais
+        for (let id in dados) { 
             let nums = dados[id].numeros.toString().split(", ");
             nums.forEach(n => numerosJaReservados.push(parseInt(n)));
         }
     }
-    // Redesenha os botões na tela aplicando os travamentos atualizados
     criarNumeros();
 });
 
@@ -36,12 +32,9 @@ function criarNumeros() {
     caixa.innerHTML = "";
 
     for (let i = 1; i <= 50; i++) {
-        // Verifica se o número já está comprado por alguém
         if (numerosJaReservados.includes(i)) {
-            // Cria o botão travado (cinza escuro, sem clique e com estilo desativado)
             caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' style='background-color: #3e3e42; color: #75757a; border-color: #3e3e42; cursor: not-allowed;' disabled>" + i + "</button>";
         } else {
-            // Cria o botão livre normal
             caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
         }
     }
@@ -80,18 +73,21 @@ function confirmarReserva() {
         return;
     }
 
+    if (numerosEscolhidosGlobal.length === 0) {
+        alert("Por favor, selecione pelo menos um número antes de confirmar!");
+        return;
+    }
+
     let numerosTexto = numerosEscolhidosGlobal.join(", ");
 
-    // SALVA DIRETO NO FIREBASE (Substituindo o antigo código do Google Planilhas)
     database.ref('reservas').push({
         numeros: numerosTexto,
         nome: nome,
         pix: pix
     })
     .then(() => {
-        alert("Obrigado, " + nome + "! Seus números (" + numerosTexto + ") foram travados e reservados com sucesso!");
+        alert("Obrigado, " + nome + "! Seus números (" + numerosTexto + ") foram reservados com sucesso!");
         document.getElementById("dados-pagamento").style.display = "block";
-        numerosEscolhidosGlobal = []; // Limpa a seleção atual
     })
     .catch((erro) => {
         alert("Erro ao salvar dados: " + erro);
