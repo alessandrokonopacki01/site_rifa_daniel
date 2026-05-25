@@ -62,15 +62,15 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        // SUBSTITUA ESTAS CREDENCIAIS PELAS SUAS DO FIREBASE!
+        // CREDENCIAIS REAIS INTEGRADAS CONFORME O SEU PROJETO
         const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "SEU_AUTH_DOMAIN",
-            databaseURL: "SUA_DATABASE_URL",
-            projectId: "SEU_PROJECT_ID",
-            storageBucket: "SUA_STORAGE_BUCKET",
-            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-            appId: "SUA_APP_ID"
+            apiKey: "AIzaSyCyR3RtUtKm-PkUaQpZ-rGNRQg7KWrSqak",
+            authDomain: "rifa-do-daniel.firebaseapp.com",
+            databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com",
+            projectId: "rifa-do-daniel",
+            storageBucket: "rifa-do-daniel.firebasestorage.app",
+            messagingSenderId: "668464647151",
+            appId: "1:668464647151:web:3285467955304f24f4841a"
         };
 
         // Inicializa o Firebase
@@ -90,7 +90,7 @@
             }
 
             // Passa por cada reserva e mostra na tela
-            for (let id em dados) {
+            for (let id in dados) { // CORRIGIDO: de 'em' para 'in'
                 let reserva = dados[id];
                 listaDiv.innerHTML += `
                     <div class="item-reserva">

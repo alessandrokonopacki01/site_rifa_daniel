@@ -21,7 +21,7 @@ database.ref('reservas').on('value', (snapshot) => {
     const dados = snapshot.val();
     
     if (dados) {
-        for (let id em dados) {
+        for (let id in dados) { // CORRIGIDO: de 'em' para 'in'
             // Pega os números (ex: "3, 5") e divide de volta em uma lista de números reais
             let nums = dados[id].numeros.toString().split(", ");
             nums.forEach(n => numerosJaReservados.push(parseInt(n)));
