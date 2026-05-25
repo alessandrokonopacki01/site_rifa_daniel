@@ -3,13 +3,13 @@ let numerosJaReservados = []; // Nova lista para bloquear cliques nos números j
 
 // COLOQUE AS SUAS CREDENCIAIS DO FIREBASE AQUI TAMBÉM!
 const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_AUTH_DOMAIN",
-    databaseURL: "SUA_DATABASE_URL",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SUA_STORAGE_BUCKET",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SUA_APP_ID"
+    apiKey: "AIzaSyCyR3RtUtKm-PkUaQpZ-rGNRQg7KWrSqak",
+    authDomain: "rifa-do-daniel.firebaseapp.com",
+    databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com", // Link do seu banco de dados
+    projectId: "rifa-do-daniel",
+    storageBucket: "rifa-do-daniel.firebasestorage.app",
+    messagingSenderId: "668464647151",
+    appId: "1:668464647151:web:3285467955304f24f4841a"
 };
 
 firebase.initializeApp(firebaseConfig);
