@@ -111,5 +111,10 @@ h1 {
 }
 
 p {
-    font-size: 4vw; /* O texto comum também se adapta */
+    font-size: clamp(14px, 3.5vw, 18px); 
+    color: #a8a8b3;
+    /* Adiciona estas 3 linhas abaixo */
+    white-space: pre-wrap;       /* Mantém as quebras de linha que digitares no HTML */
+    overflow-wrap: break-word;   /* Força a quebra de palavras muito longas */
+    word-break: break-word;      /* Garante a quebra em navegadores antigos */
 }
