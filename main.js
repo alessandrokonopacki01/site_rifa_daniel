@@ -1,6 +1,6 @@
 let numerosEscolhidosGlobal = []; 
 let numerosJaReservados = []; 
-// NOVA: Controla se o usuário já clicou no botão para ver os números
+// Controla se o usuário já clicou no botão para ver os números
 let podeExibirNumeros = false; 
 
 const firebaseConfig = {
@@ -29,16 +29,16 @@ database.ref('reservas').on('value', (snapshot) => {
         }
     }
     
-    // SÓ desenha na tela se o usuário já tiver clicado no botão antes
+    // SÓ desenha os números na tela se o usuário já tiver clicado no botão principal antes
     if (podeExibirNumeros) {
         criarNumeros();
     }
 });
 
-// NOVA FUNÇÃO: Chamada pelo clique do botão principal
+// Função chamada pelo clique do botão principal "Escolher números"
 function permitirExibicao() {
     podeExibirNumeros = true;
-    criarNumeros(); // renderiza os números imediatamente
+    criarNumeros(); // renderiza os números imediatamente na tela
 }
 
 function criarNumeros() { 
@@ -49,7 +49,7 @@ function criarNumeros() {
         if (numerosJaReservados.includes(i)) {
             caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' style='background-color: #3e3e42; color: #75757a; border-color: #3e3e42; cursor: not-allowed;' disabled>" + i + "</button>";
         } else {
-            // Mantém a cor verde caso o número já estivesse selecionado na sessão atual
+            // Mantém a cor verde caso o número já estivesse selecionado na sessão atual do usuário
             if (numerosEscolhidosGlobal.includes(i)) {
                 caixa.innerHTML += "<button id='btn-" + i + "' class='botao-numero' style='background-color: #08cf23; color: white;' onclick='escolherNumero(" + i + ")'>" + i + "</button>";
             } else {
@@ -99,17 +99,41 @@ function confirmarReserva() {
 
     let numerosTexto = numerosEscolhidosGlobal.join(", ");
 
+    // 1º PASSO: Grava e atualiza no Firebase (para bloquear o número no site na hora)
     database.ref('reservas').push({
         numeros: numerosTexto,
         nome: nome,
         pix: pix
     })
     .then(() => {
+        // Objeto formatado com os dados que irão para a sua planilha
+        let dadosParaPlanilha = {
+            nome: nome,
+            pix: pix,
+            numeros: numerosTexto
+        };
+
+        // INSIRA A SUA URL DO GOOGLE APPS SCRIPT AQUI MANTENDO AS ASPAS
+        let urlPlanilha = "https://script.google.com/macros/s/AKfycbxu0Scprk135o44H--9oQ2YJNJsUswJQ2pof3_3AdKoWoujs0drzMi_L2xmb1l0aTtw/exec"; 
+
+        // 2º PASSO: Dispara silenciosamente para o Google Sheets via API
+        fetch(urlPlanilha, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dadosParaPlanilha)
+        });
+
+        // Alerta de sucesso para o comprador e liberação da aba com o QR Code/Copia e Cola
         alert("Obrigado, " + nome + "! Seus números (" + numerosTexto + ") foram reservados com sucesso!");
         document.getElementById("dados-pagamento").style.display = "block";
-        numerosEscolhidosGlobal = []; // Limpa seleção atual após sucesso
+        
+        // Limpa a seleção global para evitar cliques duplicados acidentais
+        numerosEscolhidosGlobal = []; 
     })
     .catch((erro) => {
-        alert("Erro ao salvar dados: " + erro);
+        alert("Erro ao salvar dados no Firebase: " + erro);
     });
 }
