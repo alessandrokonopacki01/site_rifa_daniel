@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Painel do Administrador - Rifa</title>
     <style>
@@ -9,10 +10,12 @@
             font-family: sans-serif;
             padding: 20px;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
         }
+
         .btn-reset {
             background-color: #da3737;
             color: white;
@@ -24,9 +27,11 @@
             border-radius: 4px;
             margin-bottom: 30px;
         }
+
         .btn-reset:hover {
             background-color: #b22a2a;
         }
+
         .item-reserva {
             background-color: #29292e;
             padding: 15px;
@@ -37,6 +42,7 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .numero-badge {
             background-color: #08cf23;
             color: white;
@@ -46,12 +52,13 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h1>⚙️ Painel de Controle da Rifa</h1>
         <p>Aqui você gerencia as reservas e reseta o sorteio.</p>
-        
+
         <button class="btn-reset" onclick="resetarRifa()">Resetar a Rifa</button>
 
         <h2>📋 Lista de Números Reservados</h2>
@@ -64,13 +71,14 @@
     <script>
         // CREDENCIAIS REAIS INTEGRADAS CONFORME O SEU PROJETO
         const firebaseConfig = {
-            apiKey: "AIzaSyCyR3RtUtKm-PkUaQpZ-rGNRQg7KWrSqak",
-            authDomain: "rifa-do-daniel.firebaseapp.com",
-            databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com",
-            projectId: "rifa-do-daniel",
-            storageBucket: "rifa-do-daniel.firebasestorage.app",
-            messagingSenderId: "668464647151",
-            appId: "1:668464647151:web:3285467955304f24f4841a"
+            apiKey: "AIzaSyBqa9iW7CbFCB9_zUyewz39VBOT8VXBMJE",
+            authDomain: "rifa-c3b6a.firebaseapp.com",
+            databaseURL: "https://rifa-c3b6a-default-rtdb.firebaseio.com",
+            projectId: "rifa-c3b6a",
+            storageBucket: "rifa-c3b6a.firebasestorage.app",
+            messagingSenderId: "780073569218",
+            appId: "1:780073569218:web:80002a5e3c05a6803e245b",
+            measurementId: "G-LPK09JQ8RF"
         };
 
         // Inicializa o Firebase
@@ -81,9 +89,9 @@
         database.ref('reservas').on('value', (snapshot) => {
             const listaDiv = document.getElementById("lista-reservas");
             listaDiv.innerHTML = "";
-            
+
             const dados = snapshot.val();
-            
+
             if (!dados) {
                 listaDiv.innerHTML = "<p style='color: #a8a8b3;'>Nenhum número reservado ainda.</p>";
                 return;
@@ -108,14 +116,15 @@
         function resetarRifa() {
             if (confirm("Tem certeza absoluta que deseja ZERAR a rifa? Todos os nomes e números marcados serão apagados permanentemente!")) {
                 database.ref('reservas').remove()
-                .then(() => {
-                    alert("A rifa foi resetada com sucesso! Todos os números estão livres de novo.");
-                })
-                .catch((erro) => {
-                    alert("Erro ao resetar: " + erro);
-                });
+                    .then(() => {
+                        alert("A rifa foi resetada com sucesso! Todos os números estão livres de novo.");
+                    })
+                    .catch((erro) => {
+                        alert("Erro ao resetar: " + erro);
+                    });
             }
         }
     </script>
 </body>
+
 </html>

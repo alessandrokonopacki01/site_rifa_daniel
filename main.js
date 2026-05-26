@@ -2,13 +2,14 @@ let numerosEscolhidosGlobal = [];
 let numerosJaReservados = []; 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCyR3RtUtKm-PkUaQpZ-rGNRQg7KWrSqak",
-    authDomain: "rifa-do-daniel.firebaseapp.com",
-    databaseURL: "https://rifa-do-daniel-default-rtdb.firebaseio.com", 
-    projectId: "rifa-do-daniel",
-    storageBucket: "rifa-do-daniel.firebasestorage.app",
-    messagingSenderId: "668464647151",
-    appId: "1:668464647151:web:3285467955304f24f4841a"
+    apiKey: "AIzaSyBqa9iW7CbFCB9_zUyewz39VBOT8VXBMJE",
+  authDomain: "rifa-c3b6a.firebaseapp.com",
+  databaseURL: "https://rifa-c3b6a-default-rtdb.firebaseio.com",
+  projectId: "rifa-c3b6a",
+  storageBucket: "rifa-c3b6a.firebasestorage.app",
+  messagingSenderId: "780073569218",
+  appId: "1:780073569218:web:80002a5e3c05a6803e245b",
+  measurementId: "G-LPK09JQ8RF"
 };
 
 firebase.initializeApp(firebaseConfig);
