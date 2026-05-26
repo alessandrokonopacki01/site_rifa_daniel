@@ -119,7 +119,7 @@ h1 {
 
 p {
     font-size: clamp(14px, 3.5vw, 18px);
-    color: #a8a8b3;
+    color: #ffffff;
     /* Adiciona estas 3 linhas abaixo */
     white-space: pre-wrap;
     /* Mantém as quebras de linha que digitares no HTML */
