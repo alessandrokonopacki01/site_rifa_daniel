@@ -32,6 +32,45 @@
             background-color: #b22a2a;
         }
 
+        /* Nova seção de Bloqueio Manual */
+        .painel-bloqueio {
+            background-color: #29292e;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            border-left: 5px solid #08cf23;
+        }
+
+        .campo-adm {
+            margin-bottom: 15px;
+        }
+
+        .campo-adm label {
+            display: block;
+            margin-bottom: 5px;
+            color: #a8a8b3;
+        }
+
+        .campo-adm input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #202024;
+            background-color: #202024;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-bloquear {
+            background-color: #08cf23;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
         .item-reserva {
             background-color: #29292e;
             padding: 15px;
@@ -61,6 +100,19 @@
 
         <button class="btn-reset" onclick="resetarRifa()">Resetar a Rifa</button>
 
+        <div class="painel-bloqueio">
+            <h3>🔒 Bloquear Número Manualmente</h3>
+            <div class="campo-adm">
+                <label for="nome-bloqueio">Motivo / Nome (Ex: Reservado no dinheiro):</label>
+                <input type="text" id="nome-bloqueio" placeholder="Ex: Bloqueado pelo Adm">
+            </div>
+            <div class="campo-adm">
+                <label for="numero-bloqueio">Número(s) que quer bloquear (separe por vírgula se for mais de um):</label>
+                <input type="text" id="numero-bloqueio" placeholder="Ex: 5 ou 12, 14, 22">
+            </div>
+            <button class="btn-bloquear" onclick="bloquearNumeroManual()">Bloquear Número(s)</button>
+        </div>
+
         <h2>📋 Lista de Números Reservados</h2>
         <div id="lista-reservas">Carregando reservas...</div>
     </div>
@@ -69,7 +121,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        // CREDENCIAIS REAIS INTEGRADAS CONFORME O SEU PROJETO
         const firebaseConfig = {
             apiKey: "AIzaSyBqa9iW7CbFCB9_zUyewz39VBOT8VXBMJE",
             authDomain: "rifa-c3b6a.firebaseapp.com",
@@ -81,7 +132,6 @@
             measurementId: "G-LPK09JQ8RF"
         };
 
-        // Inicializa o Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
@@ -97,20 +147,46 @@
                 return;
             }
 
-            // Passa por cada reserva e mostra na tela
-            for (let id in dados) { // CORRIGIDO: de 'em' para 'in'
+            for (let id in dados) { 
                 let reserva = dados[id];
                 listaDiv.innerHTML += `
                     <div class="item-reserva">
                         <div>
                             <strong>Nome:</strong> ${reserva.nome} <br>
-                            <small style="color: #a8a8b3;">Pix: ${reserva.pix}</small>
+                            <small style="color: #a8a8b3;">Pix/Info: ${reserva.pix}</small>
                         </div>
                         <span class="numero-badge">Nº ${reserva.numeros}</span>
                     </div>
                 `;
             }
         });
+
+        // NOVA FUNÇÃO: Salva o bloqueio manual no Firebase seguindo o mesmo padrão do site
+        function bloquearNumeroManual() {
+            let nome = document.getElementById("nome-bloqueio").value.trim();
+            let numeros = document.getElementById("numero-bloqueio").value.trim();
+
+            if (nome == "" || numeros == "") {
+                alert("Por favor, preencha o motivo/nome e o número para efetuar o bloqueio!");
+                return;
+            }
+
+            // Injeta diretamente no banco simulando uma reserva do administrador
+            database.ref('reservas').push({
+                numeros: numeros,
+                nome: "🔒 " + nome,
+                pix: "Bloqueio Manual (Adm)"
+            })
+            .then(() => {
+                alert("Número(s) " + numeros + " bloqueado(s) com sucesso!");
+                // Limpa os campos de input
+                document.getElementById("nome-bloqueio").value = "";
+                document.getElementById("numero-bloqueio").value = "";
+            })
+            .catch((erro) => {
+                alert("Erro ao bloquear número: " + erro);
+            });
+        }
 
         // Função para apagar todos os dados do banco e liberar a rifa
         function resetarRifa() {
