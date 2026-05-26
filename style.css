@@ -106,15 +106,18 @@ button {
 }
 
 h1 {
-    font-size: 20px;
-    /* O tamanho do título principal vai mudar de acordo com a largura da tela */
-    text-align: center;
-    white-space: pre-wrap;
-    /* Mantém as quebras de linha que digitares no HTML */
-    overflow-wrap: break-word;
-    /* Força a quebra de palavras muito longas */
-    word-break: break-word;
-    /* Garante a quebra em navegadores antigos */
+    font-size: clamp(14px, 4vw, 18px); 
+    line-height: 1.5;                  /* Melhora o espaçamento entre as linhas */
+    color: #ffffff;
+    margin: 20px auto;
+    max-width: 500px;                  /* Impede o texto de ficar esticado em ecrãs gigantes */
+    padding: 0 10px;
+    
+    /* Regras mágicas para a quebra automática no telemóvel */
+    white-space: pre-wrap;             /* Respeita quebras do HTML, mas quebra sozinho se faltar espaço */
+    overflow-wrap: break-word;         /* Força a quebra de linha se uma palavra for muito comprida */
+    word-break: break-word;            /* Garante compatibilidade em qualquer navegador mobile */
+    text-align: center;                /* Deixa o texto centralizado e elegante */
 }
 
 p {
