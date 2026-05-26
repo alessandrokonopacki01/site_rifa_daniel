@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Minha Rifa Online</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <h1>Rifa entre amigoss</h1>
     <p>Seja bem-vindo! Escolha seu número.</p>
-    
+
     <button onclick="criarNumeros()">Escolher números</button>
 
     <div id="caixa-numeros"></div>
@@ -16,7 +18,7 @@
     <div id="painel-cadastro" class="painel-cadastro">
         <h3 style="margin-top: 0;">📝 Cadastro da Reserva</h3>
         <p>Você selecionou o número <strong id="numero-selecionado" style="color: #08cf23;">X</strong>!</p>
-        
+
         <div class="campo-formulario">
             <label for="nome-cliente">Seu Nome Completo:</label>
             <input type="text" id="nome-cliente" placeholder="Ex: João Silva">
@@ -28,25 +30,35 @@
         </div>
 
         <button class="botao-confirmar" onclick="confirmarReserva()">Confirmar e Ver Pix</button>
-        
-        <div id="dados-pagamento" style="display: none; margin-top: 20px; border-top: 1px solid #4d4d57; padding-top: 20px;">
+
+        <div id="dados-pagamento"
+            style="display: none; margin-top: 20px; border-top: 1px solid #4d4d57; padding-top: 20px;">
             <h3>ℹ️ Quase lá! Faça o Pagamento:</h3>
             <p>Escaneie o QR Code ou use o CPF abaixo:</p>
-            
+
             <div class="qrcode-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=13468906927" alt="QR Code Pix">
+                <img src="img/pix.jpeg" alt="QR Code Pix">
             </div>
 
             <div class="chave-pix"><strong>CPF:</strong> 134.689.069-27</div>
+            <a href="https://api.whatsapp.com/send?phone=5542998341038&text=Ol%C3%A1!%20Acabei%20de%20reservar%20meus%20n%C3%BAmeros%20na%20rifa%20e%20estou%20enviando%20o%20comprovante."
+                target="_blank" style="text-decoration: none; display: block;">
+                <button class="botao-confirmar"
+                    style="background-color: #25d366; margin-top: 15px; width: 100%; cursor: pointer;">
+                    🟢 Enviar Comprovante no WhatsApp
+                </button>
+            </a>
+
             <p style="font-size: 13px; color: #a8a8b3; margin-top: 15px;">
-                *Após pagar, envie o comprovante para o organizador.
+                *Após pagar, envie o comprovante para o organizador...
             </p>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    
+
     <script src="main.js"></script>
 </body>
+
 </html>
