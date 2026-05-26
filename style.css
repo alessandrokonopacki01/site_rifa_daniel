@@ -106,7 +106,7 @@ button {
 }
 
 h1 {
-    font-size: 6vw; /* O tamanho do título principal vai mudar de acordo com a largura da tela */
+    font-size: 12px; /* O tamanho do título principal vai mudar de acordo com a largura da tela */
     text-align: center;
 }
 
